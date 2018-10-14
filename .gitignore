@@ -4,6 +4,7 @@
 /sources
 /templates
 /schemes
+base16_builder
 
 #
 # Elixir-specific

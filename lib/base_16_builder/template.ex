@@ -4,7 +4,7 @@ defmodule Base16Builder.Template do
 
   defstruct config_file_path: "", directory: ""
 
-  @template_path "template"
+  @template_path "templates"
 
   @doc """
   Returns the struct for the template being rendered.
