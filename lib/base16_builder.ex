@@ -1,6 +1,6 @@
 defmodule Base16Builder do
   @moduledoc """
-  Documentation for Base16Builder.
+  base16 Builder specialized for base16-elm.
   """
 
   alias Base16Builder.Scheme
@@ -33,17 +33,11 @@ defmodule Base16Builder do
   end
 
   defp build(_repos_exist = true) do
-    schemes = Scheme.load_schemes()
-    templates = Template.load_templates()
+    template = Template.load_template()
 
-    for scheme <- schemes do
-      for template <- templates do
-        Task.async(fn ->
-          Template.render(template, scheme)
-        end)
-      end
+    for scheme <- Scheme.load_schemes() do
+      Task.async(fn -> Template.render(template, scheme) end)
     end
-    |> List.flatten()
     |> Enum.map(&Task.await(&1, task_timeout()))
 
     IO.puts("Done.")
@@ -55,6 +49,6 @@ defmodule Base16Builder do
   end
 
   defp required_repos_exist? do
-    File.exists?("./schemes/") && File.exists?("./templates/")
+    File.exists?("./schemes/")
   end
 end

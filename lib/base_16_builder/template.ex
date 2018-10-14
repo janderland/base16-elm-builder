@@ -4,18 +4,18 @@ defmodule Base16Builder.Template do
 
   defstruct config_file_path: "", directory: ""
 
+  @template_path "template"
+
   @doc """
-  Returns a list of template structs obtained by looking at
-  "templates/**/templates"
+  Returns the struct for the template being rendered.
   """
-  def load_templates do
-    Path.wildcard("templates/**/templates")
-    |> Enum.map(fn path ->
-         %Template{
-           config_file_path: Path.join(path, "config.yaml"),
-           directory: path
-         }
-       end)
+  def load_template do
+    path = @template_path
+
+    %Template{
+     config_file_path: Path.join(path, "config.yaml"),
+     directory: path
+    }
   end
 
   @doc """
@@ -30,8 +30,8 @@ defmodule Base16Builder.Template do
       template_data = build_template_data(scheme)
 
       template_file = Path.join(template.directory, "#{k}.mustache")
-      rendered_filename = "base16-#{scheme.slug}#{v["extension"]}"
-      rendered_dir = Path.join("out", v["output"])
+      rendered_filename = String.capitalize("#{scheme.slug}#{v["extension"]}")
+      rendered_dir = v["output"]
 
       {:ok, template_file_content} = File.read(template_file)
 
