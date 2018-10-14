@@ -9,32 +9,22 @@ defmodule Base16Builder.Repository do
   @sources_dir_name "sources"
 
   @doc """
-  Initializes sources, templates, and schemes repositories by git cloning
+  Initializes sources and schemes repositories by git cloning
   non-existing repos, or pulling existing ones. For more information see:
   https://github.com/chriskempson/base16/blob/master/builder.md
   """
   def init do
     init_sources_repos()
-    init_templates()
     init_schemes()
   end
 
   @doc """
-  Attempts to pull or clone Base16 templates and schemes repositories.
+  Attempts to pull or clone Base16 schemes repositories.
   """
   defp init_sources_repos do
     [
-      init_sources_repo("templates"),
       init_sources_repo("schemes")
     ]
-  end
-
-  @doc """
-  Attempts to pull or clone every template repo listed in the templates
-  YAML file.
-  """
-  defp init_templates do
-    repos_from_yaml_list("sources/templates/list.yaml", "templates")
   end
 
   @doc """
